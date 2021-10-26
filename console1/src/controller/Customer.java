@@ -88,7 +88,7 @@ public class Customer {
 
 		for (Song song : customer_song_info_list) {
 			if (song.getCategory().equals("발라드")) {
-				// 1. 발라드 리스트를 출력합니다.
+				// 1. 발라드 리스트를 출력합니다. 
 				System.out.println(
 						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
 			}
