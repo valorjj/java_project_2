@@ -9,6 +9,12 @@ import java.util.Scanner;
 import model.Song;
 
 public class Customer {
+	
+	/*
+	 * 문제점 : 예약번호를 입력받은 뒤 목록 출력 실패 
+	 * 
+	 * 
+	 */
 
 	private String filepath_song_list = "./src/file/song_list_info.txt";
 
