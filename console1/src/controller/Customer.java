@@ -9,9 +9,9 @@ import java.util.Scanner;
 import model.Song;
 
 public class Customer {
-	
+
 	/*
-	 * 문제점 : 예약번호를 입력받은 뒤 목록 출력 실패 
+	 * 문제점 : 예약번호를 입력받은 뒤 목록 출력 실패
 	 * 
 	 * 
 	 */
@@ -55,6 +55,10 @@ public class Customer {
 					break;
 				}
 
+				// 1. 사용이 끝난 리스트는 초기화 시킵니다.
+				customer_song_info_list.clear();
+				customer_reserve_list.clear();
+
 			} catch (Exception e) {
 				scanner = new Scanner(System.in);
 				System.out.println("[알림] 오류 발생 " + e);
@@ -87,8 +91,8 @@ public class Customer {
 	public void customer_print_ballad_list() {
 
 		for (Song song : customer_song_info_list) {
-			if (song.getCategory().equals("발라드")) {
-				// 1. 발라드 리스트를 출력합니다. 
+			if (Integer.parseInt(song.getNumber()) < 2000 && Integer.parseInt(song.getNumber()) > 1000) {
+				// 1. 발라드 리스트를 출력합니다.
 				System.out.println(
 						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
 			}
@@ -140,7 +144,7 @@ public class Customer {
 	public void customer_print_dance_list() {
 
 		for (Song song : customer_song_info_list) {
-			if (song.getCategory().equals("댄스")) {
+			if (Integer.parseInt(song.getNumber()) < 3000 && Integer.parseInt(song.getNumber()) > 2000) {
 				// 1. 댄스 리스트를 출력합니다.
 				System.out.println(
 						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
@@ -192,7 +196,7 @@ public class Customer {
 	public void customer_print_hiphop_list() {
 
 		for (Song song : customer_song_info_list) {
-			if (song.getCategory().equals("힙합")) {
+			if (Integer.parseInt(song.getNumber()) < 4000 && Integer.parseInt(song.getNumber()) > 3000) {
 				// 1. 힙합 리스트를 출력합니다.
 				System.out.println(
 						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
