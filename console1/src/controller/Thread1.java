@@ -2,10 +2,11 @@ package controller;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import model.Lyric;
+import model.Lyric_AscendingOrder;
 
 public class Thread1 extends Thread {
 
@@ -18,9 +19,9 @@ public class Thread1 extends Thread {
 
 	public Scanner scanner = new Scanner(System.in);
 
-	public HashSet<Lyric> thread_1_hashSet_ballad = new HashSet<Lyric>();
-	public HashSet<Lyric> thread_1_hashSet_dance = new HashSet<Lyric>();
-	public HashSet<Lyric> thread_1_hashSet_hiphop = new HashSet<Lyric>();
+	public TreeSet<Lyric> thread1_lyrics_ballad = new TreeSet<Lyric>(new Lyric_AscendingOrder());
+	public TreeSet<Lyric> thread1_lyrics_dance = new TreeSet<Lyric>(new Lyric_AscendingOrder());
+	public TreeSet<Lyric> thread1_lyrics_hiphop = new TreeSet<Lyric>(new Lyric_AscendingOrder());
 
 	private final int STEP = 1000;
 
@@ -36,7 +37,7 @@ public class Thread1 extends Thread {
 				if (idx == 1) {
 					// 1. 발라드 가사 목록을 출력합니다.
 					thread1_file_reader_ballad();
-					for (Lyric lyric : thread_1_hashSet_ballad) {
+					for (Lyric lyric : thread1_lyrics_ballad) {
 						if (lyric.getNumber() == customer_select_song) {
 							// 1. 고객이 입력한 곡과 일치한 곡이 존재하면 가사를 출력합니다.
 							String[] thread1_lyric_byLine = lyric.getLyrics().split("\n");
@@ -66,7 +67,7 @@ public class Thread1 extends Thread {
 				else if (idx == 2) {
 					// 1. 댄스 가사 목록을 출력합니다.
 					thread1_file_reader_dance();
-					for (Lyric lyric : thread_1_hashSet_dance) {
+					for (Lyric lyric : thread1_lyrics_dance) {
 						if (lyric.getNumber() == customer_select_song) {
 							// 1. 고객이 입력한 곡과 일치한 곡이 존재하면 가사를 출력합니다.
 							String[] thread1_lyric_byLine = lyric.getLyrics().split("\n");
@@ -96,7 +97,7 @@ public class Thread1 extends Thread {
 				else if (idx == 3) {
 					// 1. 힙합 가사 목록을 출력합니다.
 					thread1_file_reader_hiphop();
-					for (Lyric lyric : thread_1_hashSet_hiphop) {
+					for (Lyric lyric : thread1_lyrics_hiphop) {
 						if (lyric.getNumber() == customer_select_song) {
 							// 1. 고객이 입력한 곡과 일치한 곡이 존재하면 가사를 출력합니다.
 							String[] thread1_lyric_byLine = lyric.getLyrics().split("\n");
@@ -163,7 +164,7 @@ public class Thread1 extends Thread {
 			String[] thread_tmplist_2 = str_by_song.split("&");
 			int number = Integer.parseInt(thread_tmplist_2[0]);
 			String lyrics = thread_tmplist_2[1];
-			thread_1_hashSet_ballad.add(new Lyric(number, lyrics));
+			thread1_lyrics_ballad.add(new Lyric(number, lyrics));
 		}
 		fis.close();
 	}
@@ -180,7 +181,7 @@ public class Thread1 extends Thread {
 			String[] thread_tmplist_2 = str_by_song.split("&");
 			int number = Integer.parseInt(thread_tmplist_2[0]);
 			String lyrics = thread_tmplist_2[1];
-			thread_1_hashSet_dance.add(new Lyric(number, lyrics));
+			thread1_lyrics_dance.add(new Lyric(number, lyrics));
 		}
 		fis.close();
 	}
@@ -197,7 +198,7 @@ public class Thread1 extends Thread {
 			String[] thread_tmplist_2 = str_by_song.split("&");
 			int number = Integer.parseInt(thread_tmplist_2[0]);
 			String lyrics = thread_tmplist_2[1];
-			thread_1_hashSet_hiphop.add(new Lyric(number, lyrics));
+			thread1_lyrics_hiphop.add(new Lyric(number, lyrics));
 		}
 		fis.close();
 	}

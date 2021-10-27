@@ -75,9 +75,23 @@ public class Customer {
 
 		try {
 			System.out.println("예약은 첫곡부터 연속으로 재생됩니다. ");
+			while (true) {
+				System.out.print("1. 예약목록 시작 | 2. 뒤로 : ");
+				int user_input1 = scanner.nextInt();
+				if (user_input1 == 1) {
+					Thread4 thread4 = new Thread4();
+					thread4.start();
+					thread4.join();
+				} else if (user_input1 == 2) {
+					break;
+				} else {
+					System.err.println("[알림] 유효한 입력이 아닙니다. ");
+				}
+			}
 
 		} catch (Exception e) {
 			scanner = new Scanner(System.in);
+			System.err.println("[알림] 오류발생 " + e);
 		}
 
 	}
@@ -139,6 +153,7 @@ public class Customer {
 								break;
 							}
 						}
+
 					}
 
 					catch (Exception e) {
