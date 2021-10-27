@@ -7,6 +7,8 @@ import controller.Manager;
 import model.Karoke_Interface;
 
 public class Main implements Karoke_Interface {
+	
+	// 내려받은 파일 수정해도 올릴 수 있나??
 
 	public static void main(String[] args) {
 
