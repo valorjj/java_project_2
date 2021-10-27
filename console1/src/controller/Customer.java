@@ -97,9 +97,10 @@ public class Customer {
 					customer_write_reserve_list();
 
 				} else if (user_input1 == 3) {
+					customer_reserve_list.clear();
 					break;
 				} else if (user_input1 == 4) {
-					customer_reserve_list.clear();
+
 					break;
 				} else {
 					STAR(STAR_PRINT);
