@@ -46,7 +46,7 @@ public class Thread2 extends Thread {
 					thread1.setWork(false);
 					thread1.setStop(true);
 					setStop(true);
-					return;
+					
 				}
 
 			} catch (Exception e) {
