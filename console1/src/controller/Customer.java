@@ -122,16 +122,17 @@ public class Customer {
 
 	public void customer_print_ballad_list() {
 		STAR(STAR_PRINT);
-		for (Song song : customer_song_info_list) {
-			if (Integer.parseInt(song.getNumber()) < 2000 && Integer.parseInt(song.getNumber()) > 1000) {
-				// 1. 발라드 리스트를 출력합니다.
-				System.out.println(
-						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
-			}
-		}
 
 		while (true) {
 			try {
+				STAR(STAR_PRINT);
+				for (Song song : customer_song_info_list) {
+					if (Integer.parseInt(song.getNumber()) < 2000 && Integer.parseInt(song.getNumber()) > 1000) {
+						// 1. 발라드 리스트를 출력합니다.
+						System.out.println("제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : "
+								+ song.getNumber());
+					}
+				}
 				STAR(STAR_PRINT);
 				System.out.print("1. 시작 | 2. 예약 | 3. 뒤로가기: ");
 				int user_input2 = scanner.nextInt();
@@ -188,16 +189,17 @@ public class Customer {
 
 	public void customer_print_dance_list() {
 		STAR(STAR_PRINT);
-		for (Song song : customer_song_info_list) {
-			if (Integer.parseInt(song.getNumber()) < 3000 && Integer.parseInt(song.getNumber()) > 2000) {
-				// 1. 댄스 리스트를 출력합니다.
-				System.out.println(
-						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
-			}
-		}
 
 		while (true) {
 			try {
+				STAR(STAR_PRINT);
+				for (Song song : customer_song_info_list) {
+					if (Integer.parseInt(song.getNumber()) < 3000 && Integer.parseInt(song.getNumber()) > 2000) {
+						// 1. 댄스 리스트를 출력합니다.
+						System.out.println("제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : "
+								+ song.getNumber());
+					}
+				}
 				STAR(STAR_PRINT);
 				System.out.print("1. 시작 | 2. 예약 | 3. 뒤로가기: ");
 				int user_input2 = scanner.nextInt();
@@ -245,16 +247,17 @@ public class Customer {
 
 	public void customer_print_hiphop_list() {
 		STAR(STAR_PRINT);
-		for (Song song : customer_song_info_list) {
-			if (Integer.parseInt(song.getNumber()) < 4000 && Integer.parseInt(song.getNumber()) > 3000) {
-				// 1. 힙합 리스트를 출력합니다.
-				System.out.println(
-						"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : " + song.getNumber());
-			}
-		}
 
 		while (true) {
 			try {
+				STAR(STAR_PRINT);
+				for (Song song : customer_song_info_list) {
+					if (Integer.parseInt(song.getNumber()) < 4000 && Integer.parseInt(song.getNumber()) > 3000) {
+						// 1. 힙합 리스트를 출력합니다.
+						System.out.println("제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 번호 : "
+								+ song.getNumber());
+					}
+				}
 				STAR(STAR_PRINT);
 				System.out.print("1. 시작 | 2. 예약 | 3. 뒤로가기: ");
 				int user_input2 = scanner.nextInt();

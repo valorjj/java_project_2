@@ -14,8 +14,7 @@ public class Thread4 extends Thread {
 		// 1. Thread3 제어
 
 		Thread3 thread3 = new Thread3();
-		Thread thread = new Thread(thread3);
-		thread.start();
+		thread3.start();
 
 		try {
 			Thread.sleep(3000);
@@ -26,6 +25,11 @@ public class Thread4 extends Thread {
 		while (!stop) {
 			try {
 				int user_input1 = scanner.nextInt();
+
+				if (thread3.isStop()) {
+					setStop(true);
+					break;
+				}
 
 				if (user_input1 == 1) {
 					// 1. 스레드3 일시정지 시킵니다.
@@ -40,12 +44,14 @@ public class Thread4 extends Thread {
 					thread3.setWork(false);
 					thread3.setStop(true);
 					setStop(true);
-					return;
+					break;
 				}
 			} catch (Exception e) {
 				scanner = new Scanner(System.in);
 			}
 		}
+
+		return;
 	}
 
 	public boolean isStop() {

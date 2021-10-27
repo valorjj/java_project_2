@@ -10,7 +10,7 @@ import model.Lyric_AscendingOrder;
 import model.Song;
 import model.Song_AscendingOrder;
 
-public class Thread3 implements Runnable {
+public class Thread3 extends Thread {
 
 	private boolean stop;
 	private boolean work = true;
@@ -35,71 +35,70 @@ public class Thread3 implements Runnable {
 			thread3_read_reserve_list();
 			for (Song song : thread3_reserve_list) {
 				// 1. 인덱스
-					// 1.  발라드 2. 댄스 3. 힙합
+				// 1. 발라드 2. 댄스 3. 힙합
 				int idx = Integer.parseInt(song.getNumber()) / 1000;
-				
-			
-					if (idx == 1) {
-						thread3_file_read_ballad();
-						// 1. 발라드 - 해당하는 곡 출력
-						for (Lyric lyric : thread3_lyrics_ballad) {
-							String L1 = lyric.getLyrics();
-							String[] byLine = L1.split("\n");
-							while (!stop) {
-								for (String line : byLine) {
-									if (work) {
-										System.out.println(line);
-										Thread.sleep(1000);
-									}
-									else {
-										Thread.yield();
-									}
-								}
-							}
-						}
-					}
-					if (idx == 2) {
-						thread3_file_read_dance();
-						// 1. 댄스 - 해당하는 곡 출력
-						for (Lyric lyric : thread3_lyrics_dance) {
-							String L1 = lyric.getLyrics();
-							String[] byLine = L1.split("\n");
-							while (!stop) {
-								for (String line : byLine) {
-									if (work) {
-										System.out.println(line);
-										Thread.sleep(1000);
-									}
+				System.out.println("제목 : " + song.getTitle() + " | 가수 : " + song.getSinger());
 
-									else {
-										Thread.yield();
-									}
+				if (idx == 1) {
+					thread3_file_read_ballad();
+					// 1. 발라드 - 해당하는 곡 출력
+					for (Lyric lyric : thread3_lyrics_ballad) {
+						String L1 = lyric.getLyrics();
+						String[] byLine = L1.split("\n");
+						while (!stop) {
+							for (String line : byLine) {
+								if (work) {
+									System.out.println(line);
+									Thread.sleep(1000);
+								} else {
+									Thread.yield();
 								}
 							}
 						}
 					}
-					if (idx == 3) {
-						thread3_file_read_hiphop();
-						// 1. 힙합 - 해당하는 곡 출력
-						for (Lyric lyric : thread3_lyrics_hiphop) {
-							String L1 = lyric.getLyrics();
-							String[] byLine = L1.split("\n");
-							while (!stop) {
-								for (String line : byLine) {
-									if (work) {
-										System.out.println(line);
-										Thread.sleep(1000);
-									}
+				}
+				if (idx == 2) {
+					thread3_file_read_dance();
+					// 1. 댄스 - 해당하는 곡 출력
+					for (Lyric lyric : thread3_lyrics_dance) {
+						String L1 = lyric.getLyrics();
+						String[] byLine = L1.split("\n");
+						while (!stop) {
+							for (String line : byLine) {
+								if (work) {
+									System.out.println(line);
+									Thread.sleep(1000);
+								}
 
-									else {
-										Thread.yield();
-									}
+								else {
+									Thread.yield();
 								}
 							}
 						}
 					}
+				}
+				if (idx == 3) {
+					thread3_file_read_hiphop();
+					// 1. 힙합 - 해당하는 곡 출력
+					for (Lyric lyric : thread3_lyrics_hiphop) {
+						String L1 = lyric.getLyrics();
+						String[] byLine = L1.split("\n");
+						while (!stop) {
+							for (String line : byLine) {
+								if (work) {
+									System.out.println(line);
+									Thread.sleep(1000);
+								}
+
+								else {
+									Thread.yield();
+								}
+							}
+						}
+					}
+				}
 			}
-			
+
 			// 1. for 문이 끝나는 시점에서 종료 (모든 노래가 가사 출력 완료되는 시점)
 			return;
 
