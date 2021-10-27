@@ -77,9 +77,10 @@ public class Customer {
 			System.out.println("예약은 첫곡부터 연속으로 재생됩니다. ");
 			while (true) {
 				STAR(STAR_PRINT);
-				System.out.print("1. 예약목록 시작 | 2. 예약 취소 | 3. 뒤로가기 : ");
+				System.out.print("1. 예약목록 시작 | 2. 예약 취소 | 3.  예약 초기화 | 4. 뒤로 가기 : ");
 				int user_input1 = scanner.nextInt();
 				if (user_input1 == 1) {
+					System.out.println("[예약목록]");
 					Thread4 thread4 = new Thread4();
 					thread4.start();
 					thread4.join();
@@ -96,6 +97,9 @@ public class Customer {
 					customer_write_reserve_list();
 
 				} else if (user_input1 == 3) {
+					break;
+				} else if (user_input1 == 4) {
+					customer_reserve_list.clear();
 					break;
 				} else {
 					STAR(STAR_PRINT);

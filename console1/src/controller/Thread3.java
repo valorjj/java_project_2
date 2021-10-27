@@ -111,6 +111,7 @@ public class Thread3 extends Thread {
 
 	public void thread3_read_reserve_list() throws IOException {
 		// 1. 예약 목록을 불러옵니다.
+
 		FileInputStream fis = new FileInputStream(filepath_reserve_list);
 		int size = fis.available();
 		byte[] bytelist = new byte[size];
@@ -125,6 +126,7 @@ public class Thread3 extends Thread {
 				thread3_reserve_list.add(new Song(l2[0], l2[1], l2[2], l2[3]));
 			}
 		}
+
 	}
 
 	public void thread3_file_read_ballad() throws IOException {
