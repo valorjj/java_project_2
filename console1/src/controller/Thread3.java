@@ -38,7 +38,7 @@ public class Thread3 implements Runnable {
 					// 1.  발라드 2. 댄스 3. 힙합
 				int idx = Integer.parseInt(song.getNumber()) / 1000;
 				
-				while (true) {
+			
 					if (idx == 1) {
 						thread3_file_read_ballad();
 						// 1. 발라드 - 해당하는 곡 출력
@@ -51,7 +51,6 @@ public class Thread3 implements Runnable {
 										System.out.println(line);
 										Thread.sleep(1000);
 									}
-
 									else {
 										Thread.yield();
 									}
@@ -99,8 +98,10 @@ public class Thread3 implements Runnable {
 							}
 						}
 					}
-				}
 			}
+			
+			// 1. for 문이 끝나는 시점에서 종료 (모든 노래가 가사 출력 완료되는 시점)
+			return;
 
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -11,12 +11,6 @@ import model.Song_AscendingOrder;
 
 public class Customer {
 
-	/*
-	 * 문제점 : 예약번호를 입력받은 뒤 목록 출력 실패
-	 * 
-	 * 
-	 */
-
 	private String filepath_song_list = "./src/file/song_list_info.txt";
 	private String filepath_reverve_list = "./src/file/reserve_list.txt";
 
@@ -164,7 +158,6 @@ public class Customer {
 								break;
 							}
 						}
-
 					}
 
 					catch (Exception e) {

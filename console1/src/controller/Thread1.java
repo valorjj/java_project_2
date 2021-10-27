@@ -37,18 +37,21 @@ public class Thread1 extends Thread {
 				int idx = customer_select_song / 1000;
 
 				if (idx == 1) {
+					// 0. count = 0
 					// 1. 발라드 가사 목록을 출력합니다.
+						// 1. text file ----> TreeSet 으로 전달 
 					thread1_file_reader_ballad();
 					for (Lyric lyric : thread1_lyrics_ballad) {
+						// 1. 고객이 입력한 곡과 일치한 곡이 존재하면 가사를 출력합니다.
 						if (lyric.getNumber() == customer_select_song) {
-							// 1. 고객이 입력한 곡과 일치한 곡이 존재하면 가사를 출력합니다.
 							String[] thread1_lyric_byLine = lyric.getLyrics().split("\n");
-							// 2. 가사가 한줄 단위로 저장됩니다.
+							// 1. 가사가 한줄 단위로 저장됩니다.
 							int thread1_list_size = thread1_lyric_byLine.length;
-							// 3. 가사가 한줄 단위로 출력됩니다. 
+							// 2. 가사가 한줄 단위로 출력됩니다. 
 								// 1. stop flag 를 이용해서 제어합니다.
 									// 1. Thread2 에서 thread1 의 상태를 제어하고 있습니다. 
 									// 2. Thread2 에서 입력에 따라서 work, stop 을 true, false 로 상태변화시킵니다. 
+							// 3. stop flag 이용한 상태제어 (at Thread2)
 							while (!stop) {
 								for (String byLine : thread1_lyric_byLine) {
 									if (work) {
@@ -58,6 +61,7 @@ public class Thread1 extends Thread {
 										}
 										// 1. 가사가 한 줄 출력되면 카운터를 증가시킵니다. 
 											// 1. 카운트가 전체 가사 길이 만큼 증가된다면 Thread1 을 종료시킵니다. 
+											// 2. Thread1 이 종료된 후, Thread2 도 자동으로 종료되어야 하는데 아직 방법을 찾지 못했습니다. 
 										count++;
 										System.out.println(byLine);
 										Thread.sleep(STEP);
