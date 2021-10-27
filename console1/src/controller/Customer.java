@@ -1,12 +1,13 @@
 package controller;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import model.Song;
+import model.Song_AscendingOrder;
 
 public class Customer {
 
@@ -17,11 +18,12 @@ public class Customer {
 	 */
 
 	private String filepath_song_list = "./src/file/song_list_info.txt";
+	private String filepath_reverve_list = "./src/file/reserve_list.txt";
 
 	public Scanner scanner = new Scanner(System.in);
 
-	public ArrayList<Song> customer_song_info_list = new ArrayList<Song>();
-	public ArrayList<Song> customer_reserve_list = new ArrayList<Song>();
+	public TreeSet<Song> customer_song_info_list = new TreeSet<Song>(new Song_AscendingOrder());
+	public TreeSet<Song> customer_reserve_list = new TreeSet<Song>(new Song_AscendingOrder());
 
 	public void customer_menu() {
 
@@ -29,7 +31,7 @@ public class Customer {
 
 			try {
 				System.out.println("1. 발라드 | 2. 댄스 | 3. 힙합 | 4. 예약확인 | 5. 뒤로가기 ");
-				System.out.println("선택 : ");
+				System.out.print("선택 : ");
 				int user_input1 = scanner.nextInt();
 
 				customer_read_song(); // 1. customer_song_info_list 에 인스턴스가 담겼습니다.
@@ -48,6 +50,7 @@ public class Customer {
 				}
 				if (user_input1 == 4) {
 					// 4. 예약 곡 확인
+					customer_print_reserve_list();
 
 				}
 				if (user_input1 == 5) {
@@ -55,14 +58,26 @@ public class Customer {
 					break;
 				}
 
-				// 1. 사용이 끝난 리스트는 초기화 시킵니다.
-				customer_song_info_list.clear();
-				customer_reserve_list.clear();
-
 			} catch (Exception e) {
 				scanner = new Scanner(System.in);
 				System.out.println("[알림] 오류 발생 " + e);
 			}
+		}
+	}
+
+	private void customer_print_reserve_list() {
+		// 1. 예약 목록을 출력합니다.
+
+		for (Song song : customer_reserve_list) {
+			System.out.println(
+					"제목 : " + song.getTitle() + " | 가수 : " + song.getSinger() + " | 예약 번호 : " + song.getNumber());
+		}
+
+		try {
+			System.out.println("예약은 첫곡부터 연속으로 재생됩니다. ");
+
+		} catch (Exception e) {
+			scanner = new Scanner(System.in);
 		}
 
 	}
@@ -100,7 +115,6 @@ public class Customer {
 
 		while (true) {
 			try {
-
 				System.out.print("1. 시작 | 2. 예약 | 3. 뒤로가기: ");
 				int user_input2 = scanner.nextInt();
 
@@ -110,35 +124,43 @@ public class Customer {
 					thread2.start();
 					thread2.join();
 
-				} else if (user_input2 == 2) {
+				}
+
+				else if (user_input2 == 2) {
 					// 2. 예약 화면 출력
-					System.out.println("[알림] 예약 화면입니다. ");
-					System.out.println("예약하실 곡 번호 : ");
+					System.out.println("[알림] 예약하실 곡 번호 : ");
 					try {
 						int user_input3 = scanner.nextInt();
 						for (Song song : customer_song_info_list) {
 							if (Integer.parseInt(song.getNumber()) == user_input3) {
 								// 1. 일치하는 객체를 리스트에 집어넣습니다.
 								customer_reserve_list.add(song);
+								customer_write_reserve_list();
+								break;
 							}
 						}
-
-					} catch (Exception e) {
-						scanner = new Scanner(System.in);
 					}
 
-				} else if (user_input2 == 3) {
-					break;
-				} else {
-					System.err.println("[알림] 유효하지 않은 입력입니다. ");
+					catch (Exception e) {
+						scanner = new Scanner(System.in);
+
+					}
+
 				}
 
-			} catch (Exception e) {
-				scanner = new Scanner(System.in);
+				else if (user_input2 == 3) {
+					break;
+				}
+
+				else {
+					System.err.println("[알림] 유효하지 않은 입력입니다. ");
+				}
 			}
 
+			catch (Exception e) {
+				scanner = new Scanner(System.in);
+			}
 		}
-
 	}
 
 	public void customer_print_dance_list() {
@@ -165,7 +187,6 @@ public class Customer {
 
 				} else if (user_input2 == 2) {
 					// 2. 예약 화면 출력
-					System.out.println("[알림] 예약 화면입니다. ");
 					System.out.println("예약하실 곡 번호 : ");
 					try {
 						int user_input3 = scanner.nextInt();
@@ -173,6 +194,8 @@ public class Customer {
 							if (Integer.parseInt(song.getNumber()) == user_input3) {
 								// 1. 일치하는 객체를 리스트에 집어넣습니다.
 								customer_reserve_list.add(song);
+								customer_write_reserve_list();
+								break;
 							}
 						}
 
@@ -216,7 +239,6 @@ public class Customer {
 					thread2.join();
 				} else if (user_input2 == 2) {
 					// 2. 예약 화면 출력
-					System.out.println("[알림] 예약 화면입니다. ");
 					System.out.println("예약하실 곡 번호 : ");
 					try {
 						int user_input3 = scanner.nextInt();
@@ -224,6 +246,8 @@ public class Customer {
 							if (Integer.parseInt(song.getNumber()) == user_input3) {
 								// 1. 일치하는 객체를 리스트에 집어넣습니다.
 								customer_reserve_list.add(song);
+								customer_write_reserve_list();
+								break;
 							}
 						}
 					} catch (Exception e) {
@@ -241,4 +265,20 @@ public class Customer {
 			}
 		}
 	}
+
+	private void customer_write_reserve_list() throws IOException {
+
+		// 1. 리스트에 저장된 데이터를 revserve_list.txt 에 담습니다.
+
+		FileOutputStream fos = new FileOutputStream(filepath_reverve_list);
+		String str = "";
+		for (Song song : customer_reserve_list) {
+			str += song.getTitle() + "," + song.getSinger() + "," + song.getNumber() + "," + song.getCategory() + "\n";
+		}
+		fos.write(str.getBytes());
+		fos.flush();
+		fos.close();
+
+	}
+
 }

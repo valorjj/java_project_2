@@ -26,7 +26,7 @@ public class Thread2 extends Thread {
 		while (!stop) {
 
 			try {
-				System.out.println("1. 일시정지 2. 재생 3. 종료 ");
+				// System.out.println("1. 일시정지 2. 재생 3. 종료 ");
 				int user_input1 = scanner.nextInt();
 
 				if (user_input1 == 1) {

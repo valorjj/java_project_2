@@ -1,16 +1,20 @@
 package controller;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.NavigableSet;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import model.Lyric;
+import model.Lyric_AscendingOrder;
 import model.Song;
+import model.Song_AscendingOrder;
 
 public class Manager {
 
@@ -26,14 +30,12 @@ public class Manager {
 
 	public Scanner scanner = new Scanner(System.in);
 
-	public ArrayList<Lyric> manager_ballad_list = new ArrayList<Lyric>();
-	public ArrayList<Lyric> manager_dance_list = new ArrayList<Lyric>();
-	public ArrayList<Lyric> manager_hiphop_list = new ArrayList<Lyric>();
-
-	public ArrayList<Song> manager_song_list = new ArrayList<Song>();
+	public TreeSet<Lyric> manager_ballad_list = new TreeSet<Lyric>(new Lyric_AscendingOrder());
+	public TreeSet<Lyric> manager_dance_list = new TreeSet<Lyric>(new Lyric_AscendingOrder());
+	public TreeSet<Lyric> manager_hiphop_list = new TreeSet<Lyric>(new Lyric_AscendingOrder());
+	public TreeSet<Song> manager_song_list = new TreeSet<Song>(new Song_AscendingOrder());
 
 	public void manager_menu() {
-
 		try {
 			if (manager_logIn()) { // 1. 관리자 로그인
 
@@ -44,14 +46,20 @@ public class Manager {
 					// 1. [관리자] 곡 정보(제목, 가수, 번호, 장르) 수정
 					manager_edit();
 
-				} else if (manager_select == 2) {
+				}
+
+				else if (manager_select == 2) {
 					// 2. 로그아웃
 					return;
-				} else {
+				}
+
+				else {
 					System.out.println("[알림] 유효하지 않은 입력입니다. ");
 				}
 
-			} else {
+			}
+
+			else {
 				System.err.println("[알림] 정보가 일치하지 않습니다. ");
 			}
 
@@ -65,7 +73,7 @@ public class Manager {
 	private void manager_edit() {
 
 		while (true) {
-			System.out.print("1. 추가 | 2. 삭제 | 3. 뒤로가기 : ");
+			System.out.print("1. 추가 | 2. 삭제 | 3. 로그아웃 : ");
 			try {
 				int manager_select = scanner.nextInt();
 				if (manager_select == 1) {
@@ -83,27 +91,32 @@ public class Manager {
 					if (int_number < 1000 || int_number > 4000) {
 						System.out.println("[경고] 유효한 입력이 아닙니다. ");
 					} else {
-						manager_read_song(); // 1. 이 부분에서 manager_song_list 생성된 객체가 인수로 계속해서 전달됩니다.
+						// 1. txt file ----> manager_song_list
+						manager_read_song();
 
+						// 2. song 객체 생성
 						Song song = new Song(title, artist, number, genre);
-						manager_song_list.add(song); // 2. 새롭게 입력된 객체를 리스트에 추가합니다.
 
+						// 3. manager_song_list 에 새로운 객체 추가
+						manager_song_list.add(song);
+
+						// 4. 입력받은 정보를 string 으로 묶어서 txt file 에 추가
 						String newString = title + "," + artist + "," + number + "," + genre + "\n";
+						manager_write_single_data(newString); // 3. 새롭게 입력된 객체를 txt 파일에 추가합니다.
+						System.out.println(newString);
+						// 5. TreeSet 정렬 후, txt 파일에 덮어 씌우기
+						manager_write_song_info(); //
+						System.out.println(manager_song_list.size());
 
-						manager_write_single_data(newString, manager_song_list); // 3. 새롭게 입력된 객체를 txt 파일에 추가합니다.
-
-						manager_write_ArrayList();
-
-						// 1. idx 에 따른 가사 추가;
+						// 6. idx 에 따른 가사 추가;
 						int idx = int_number / 1000; // 1 : 발라드, 2 : 댄스, 3 : 힙합
-						scanner.nextLine();
-
-						manager_write_lyrics(idx, int_number);
-						manager_song_list.clear();
-
+						scanner.nextLine(); // 2. next() 후 nextLine() 오면 오류 발생하기 때문에
+						manager_write_lyrics(idx, int_number); // 3. 가사를 입력받는 메소드 호출
 					}
 
-				} else if (manager_select == 2) {
+				}
+
+				else if (manager_select == 2) {
 					// 2. [관리자] 곡 & 가사 삭제
 
 					manager_read_song(); // 1. txt 파일을 읽고 리스트에 저장합니다.
@@ -115,14 +128,20 @@ public class Manager {
 					int idx = int_number / 1000;
 					manager_delete_song(int_number, idx);
 
-				} else if (manager_select == 3) {
-					break;
+				}
 
-				} else {
+				else if (manager_select == 3) {
+					// 3. 관리자 로그아웃
+					break;
+				}
+
+				else {
 					System.err.println("[알림] 유효하지 않은 입력입니다. ");
 				}
 
-			} catch (Exception e) {
+			}
+
+			catch (Exception e) {
 				scanner = new Scanner(System.in);
 			}
 		}
@@ -148,9 +167,7 @@ public class Manager {
 			}
 		}
 
-		manager_write_ArrayList();
-
-		manager_song_list.clear();
+		manager_write_song_info();
 
 		if (idx == 1) {
 
@@ -163,16 +180,8 @@ public class Manager {
 				}
 			}
 
-			Collections.sort(manager_ballad_list, new Comparator<Lyric>() {
-
-				@Override
-				public int compare(Lyric o1, Lyric o2) {
-					return o1.getNumber() - o2.getNumber();
-				}
-			});
 			manager_write_ballad();
 
-			manager_ballad_list.clear();
 		}
 		if (idx == 2) {
 			// 2. 댄스 가사 삭제 후 정렬
@@ -184,16 +193,8 @@ public class Manager {
 				}
 			}
 
-			Collections.sort(manager_dance_list, new Comparator<Lyric>() {
-
-				@Override
-				public int compare(Lyric o1, Lyric o2) {
-					return o1.getNumber() - o2.getNumber();
-				}
-			});
 			manager_write_dance();
 
-			manager_dance_list.clear();
 		}
 		if (idx == 3) {
 			// 3. 힙합 가사 삭제 후 정렬
@@ -204,16 +205,9 @@ public class Manager {
 					break;
 				}
 			}
-			Collections.sort(manager_hiphop_list, new Comparator<Lyric>() {
 
-				@Override
-				public int compare(Lyric o1, Lyric o2) {
-					return o1.getNumber() - o2.getNumber();
-				}
-			});
 			manager_write_hiphop();
 
-			manager_hiphop_list.clear();
 		}
 	}
 
@@ -229,7 +223,6 @@ public class Manager {
 				Lyric lyric = new Lyric(number, lyrics);
 				manager_ballad_list.add(lyric); // 2. 새롭게 입력된 데이터를 리스트에 추가시킵니다.
 				manager_write_ballad();// 3. 리스트에 있는 인스턴스를 txt 파일에 덮어씌웁니다.
-				manager_ballad_list.clear();
 
 			}
 			if (idx == 2) {
@@ -241,7 +234,6 @@ public class Manager {
 				Lyric lyric = new Lyric(number, lyrics);
 				manager_dance_list.add(lyric); // 2. 새롭게 입력된 데이터를 리스트에 추가시킵니다.
 				manager_write_dance();// 3. 리스트에 있는 인스턴스를 txt 파일에 덮어씌웁니다.
-				manager_dance_list.clear();
 
 			}
 			if (idx == 3) {
@@ -253,7 +245,6 @@ public class Manager {
 				Lyric lyric = new Lyric(number, lyrics);
 				manager_hiphop_list.add(lyric); // 2. 새롭게 입력된 데이터를 리스트에 추가시킵니다.
 				manager_write_hiphop();// 3. 리스트에 있는 인스턴스를 txt 파일에 덮어씌웁니다.
-				manager_hiphop_list.clear();
 
 			}
 
@@ -266,15 +257,6 @@ public class Manager {
 	public void manager_write_ballad() throws IOException {
 		// 1. 리스트에 있는 값을 txt 파일로 옮깁니다.
 		FileOutputStream fos = new FileOutputStream(filepath_ballad);
-
-		// 2. 오름차순으로 정렬합니다.
-		Collections.sort(manager_ballad_list, new Comparator<Lyric>() {
-			@Override
-			public int compare(Lyric o1, Lyric o2) {
-				return o1.getNumber() - o2.getNumber();
-			}
-
-		});
 
 		String str = "";
 
@@ -292,15 +274,6 @@ public class Manager {
 		// 1. 리스트에 있는 값을 txt 파일로 옮깁니다.
 		FileOutputStream fos = new FileOutputStream(filepath_dance);
 
-		// 2. 오름차순으로 정렬합니다.
-		Collections.sort(manager_dance_list, new Comparator<Lyric>() {
-			@Override
-			public int compare(Lyric o1, Lyric o2) {
-				return o1.getNumber() - o2.getNumber();
-			}
-
-		});
-
 		String str = "";
 
 		for (Lyric lyric : manager_dance_list) {
@@ -316,14 +289,6 @@ public class Manager {
 	public void manager_write_hiphop() throws IOException {
 		// 1. 리스트에 있는 값을 txt 파일로 옮깁니다.
 		FileOutputStream fos = new FileOutputStream(filepath_hiphop);
-
-		// 2. 오름차순으로 정렬합니다.
-		Collections.sort(manager_hiphop_list, new Comparator<Lyric>() {
-			@Override
-			public int compare(Lyric o1, Lyric o2) {
-				return o1.getNumber() - o2.getNumber();
-			}
-		});
 
 		String str = "";
 
@@ -353,7 +318,7 @@ public class Manager {
 				String[] lyric_list2 = s1.split("&");
 				int number = Integer.parseInt(lyric_list2[0]);
 				String lyrics = lyric_list2[1];
-				manager_ballad_list.add(new Lyric(number, lyrics)); // 1. 리스트에 옮겨담는다.
+				manager_ballad_list.add(new Lyric(number, lyrics));
 			}
 		}
 		fis.close();
@@ -375,7 +340,7 @@ public class Manager {
 				String[] lyric_list2 = s1.split("&");
 				int number = Integer.parseInt(lyric_list2[0]);
 				String lyrics = lyric_list2[1];
-				manager_dance_list.add(new Lyric(number, lyrics)); // 1. 리스트에 옮겨담는다.
+				manager_dance_list.add(new Lyric(number, lyrics));
 			}
 		}
 		fis.close();
@@ -397,20 +362,16 @@ public class Manager {
 				String[] lyric_list2 = s1.split("&");
 				int number = Integer.parseInt(lyric_list2[0]);
 				String lyrics = lyric_list2[1];
-				manager_hiphop_list.add(new Lyric(number, lyrics)); // 1. 리스트에 옮겨담는다.
+				manager_hiphop_list.add(new Lyric(number, lyrics));
 			}
 		}
 		fis.close();
 	}
 
-	public void manager_write_ArrayList() throws IOException {
-
-		// 1. ArrayList ---> txt file
-
+	public void manager_write_song_info() throws IOException {
 		FileOutputStream fos = new FileOutputStream(filepath_song_list);
 
 		String str = "";
-
 		for (Song song : manager_song_list) {
 			str += song.getTitle() + "," + song.getSinger() + "," + song.getNumber() + "," + song.getCategory() + "\n";
 		}
@@ -422,7 +383,7 @@ public class Manager {
 	}
 
 	public void manager_read_song() throws IOException {
-		// 1. txt file ---> ArrayList<Song>
+		// 1. txt 파일 ----> manager_song_list
 		FileInputStream fis = new FileInputStream(filepath_song_list);
 
 		int size = fis.available();
@@ -434,31 +395,24 @@ public class Manager {
 		String[] list_1 = str.split("\n");
 
 		for (String s : list_1) {
-			String[] list_2 = s.split(",");
-			manager_song_list.add(new Song(list_2[0], list_2[1], list_2[2], list_2[3]));
-
+			if (!s.equals(" ")) {
+				String[] list_2 = s.split(",");
+				manager_song_list.add(new Song(list_2[0], list_2[1], list_2[2], list_2[3]));
+			}
 		}
 		fis.close();
 	}
 
-	public void manager_write_single_data(String newString, ArrayList<Song> list) throws IOException {
-
-		Collections.sort(list, new Comparator<Song>() {
-			@Override
-			public int compare(Song o1, Song o2) {
-				int a1 = Integer.parseInt(o1.getNumber());
-				int a2 = Integer.parseInt(o2.getNumber());
-				return a1 - a2;
-			}
-		});
-
+	public void manager_write_single_data(String str) throws IOException {
+		// 1. 곡 정보를 txt 파일에 추가합니다.
 		FileOutputStream fos = new FileOutputStream(filepath_song_list);
-		fos.write(newString.getBytes());
+		fos.write(str.getBytes());
 		fos.flush();
 		fos.close();
 	}
 
 	public boolean manager_logIn() {
+		// 1. 관리자 로그인
 		try {
 			System.out.println("[관리자] 아이디 : ");
 			String id = scanner.next();

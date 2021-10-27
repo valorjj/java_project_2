@@ -29,7 +29,6 @@ public class Main implements Karoke_Interface {
 			System.out.print("선택 : ");
 
 			try {
-				STAR(STAR_PRINT);
 				Customer customer = new Customer();
 				Manager manager = new Manager();
 
