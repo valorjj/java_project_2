@@ -98,9 +98,41 @@ public class Thread1 extends Thread {
 			String lyrics = thread_tmplist_2[1];
 			thread1_list_ballad.add(new Lyric(number, lyrics));
 		}
-
 		fis.close();
+	}
 
+	public void thread1_file_reader_dance() throws IOException {
+		FileInputStream fis = new FileInputStream(filepath_dance);
+		int size = fis.available();
+		byte[] bytelist = new byte[size];
+		fis.read(bytelist);
+
+		String str = new String(bytelist);
+		String[] thread_tmplist_1 = str.split("%\n");
+		for (String str_by_song : thread_tmplist_1) {
+			String[] thread_tmplist_2 = str_by_song.split("&");
+			int number = Integer.parseInt(thread_tmplist_2[0]);
+			String lyrics = thread_tmplist_2[1];
+			thread1_list_dance.add(new Lyric(number, lyrics));
+		}
+		fis.close();
+	}
+
+	public void thread1_file_reader_hiphop() throws IOException {
+		FileInputStream fis = new FileInputStream(filepath_hiphop);
+		int size = fis.available();
+		byte[] bytelist = new byte[size];
+		fis.read(bytelist);
+
+		String str = new String(bytelist);
+		String[] thread_tmplist_1 = str.split("%\n");
+		for (String str_by_song : thread_tmplist_1) {
+			String[] thread_tmplist_2 = str_by_song.split("&");
+			int number = Integer.parseInt(thread_tmplist_2[0]);
+			String lyrics = thread_tmplist_2[1];
+			thread1_list_hiphop.add(new Lyric(number, lyrics));
+		}
+		fis.close();
 	}
 
 }

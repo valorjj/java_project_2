@@ -7,7 +7,7 @@ import controller.Manager;
 import model.Karoke_Interface;
 
 public class Main implements Karoke_Interface {
-	
+
 	// 내려받은 파일 수정해도 올릴 수 있나??
 
 	public static void main(String[] args) {
@@ -24,16 +24,18 @@ public class Main implements Karoke_Interface {
 			STAR(STAR_PRINT);
 			System.out.println("발라드 | 댄스 | 힙합");
 			STAR(STAR_PRINT);
-			System.out.println("1. 시작 2. 종료");
+			System.out.println("1. 시작 2. 종료 ");
 			STAR(STAR_PRINT);
-			System.out.println("선택 : ");
+			System.out.print("선택 : ");
 
 			try {
-
+				STAR(STAR_PRINT);
 				Customer customer = new Customer();
 				Manager manager = new Manager();
 
 				int user_select = scanner.nextInt();
+
+				STAR(STAR_PRINT);
 
 				if (user_select == 1) {
 					// 1. 노래 목록을 출력하는 메소드 호출
@@ -51,7 +53,7 @@ public class Main implements Karoke_Interface {
 				}
 
 			} catch (Exception e) {
-				System.out.println("[알림] 유효하지 않은 입력값입니다. ");
+				System.err.println("[알림] 유효하지 않은 입력값입니다. ");
 				scanner = new Scanner(System.in);
 			}
 

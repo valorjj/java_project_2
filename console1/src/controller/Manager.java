@@ -35,8 +35,7 @@ public class Manager {
 	public void manager_menu() {
 
 		try {
-
-			if (manager_logIn()) {
+			if (manager_logIn()) { // 1. 관리자 로그인
 
 				System.out.println("[관리자] 1. 곡 수정 2. 뒤로가기");
 				System.out.print("선택 : ");
@@ -52,6 +51,8 @@ public class Manager {
 					System.out.println("[알림] 유효하지 않은 입력입니다. ");
 				}
 
+			} else {
+				System.err.println("[알림] 정보가 일치하지 않습니다. ");
 			}
 
 		} catch (Exception e) {
@@ -69,14 +70,14 @@ public class Manager {
 				int manager_select = scanner.nextInt();
 				if (manager_select == 1) {
 					// 1. [관리자] 곡 & 가사 추가
-					System.out.println("[분류] 발라드 : 1001~1999 | 댄스 : 2001~2999 | 힙합 : 3001~3999");
-					System.out.print("제목 : ");
+					System.out.println("[장르] [발라드] : 1001~1999 | [댄스] : 2001~2999 | [힙합] : 3001~3999");
+					System.out.print("[제목] : ");
 					String title = scanner.next();
-					System.out.print("아티스트 : ");
+					System.out.print("[가수] : ");
 					String artist = scanner.next();
-					System.out.print("예약번호 : ");
+					System.out.print("[예약번호] : ");
 					String number = scanner.next();
-					System.out.print("장르 : ");
+					System.out.print("[장르] : ");
 					String genre = scanner.next();
 					int int_number = Integer.parseInt(number);
 					if (int_number < 1000 || int_number > 4000) {

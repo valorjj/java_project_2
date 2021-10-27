@@ -214,7 +214,6 @@ public class Customer {
 					Thread2 thread2 = new Thread2();
 					thread2.start();
 					thread2.join();
-
 				} else if (user_input2 == 2) {
 					// 2. 예약 화면 출력
 					System.out.println("[알림] 예약 화면입니다. ");
@@ -227,7 +226,6 @@ public class Customer {
 								customer_reserve_list.add(song);
 							}
 						}
-
 					} catch (Exception e) {
 						scanner = new Scanner(System.in);
 					}
@@ -241,8 +239,6 @@ public class Customer {
 			} catch (Exception e) {
 				scanner = new Scanner(System.in);
 			}
-
 		}
 	}
-
 }
