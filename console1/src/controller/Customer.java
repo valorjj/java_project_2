@@ -77,13 +77,25 @@ public class Customer {
 			System.out.println("예약은 첫곡부터 연속으로 재생됩니다. ");
 			while (true) {
 				STAR(STAR_PRINT);
-				System.out.print("1. 예약목록 시작 | 2. 뒤로 : ");
+				System.out.print("1. 예약목록 시작 | 2. 예약 취소 | 3. 뒤로가기 : ");
 				int user_input1 = scanner.nextInt();
 				if (user_input1 == 1) {
 					Thread4 thread4 = new Thread4();
 					thread4.start();
 					thread4.join();
 				} else if (user_input1 == 2) {
+					System.out.println("취소할 곡 번호 : ");
+					int user_input2 = scanner.nextInt();
+					for (Song song : customer_reserve_list) {
+						if (Integer.parseInt(song.getNumber()) == user_input2) {
+							customer_reserve_list.remove(song);
+							break;
+						}
+					}
+
+					customer_write_reserve_list();
+
+				} else if (user_input1 == 3) {
 					break;
 				} else {
 					STAR(STAR_PRINT);
